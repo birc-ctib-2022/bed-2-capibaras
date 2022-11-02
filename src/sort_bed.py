@@ -9,6 +9,9 @@ from bed import (
 )
 
 
+def get_chrom_(x):
+    return x[1]
+
 
 def sort_file(table: Table) -> None:
     """Sort each chromosome and update the table."""
@@ -22,8 +25,11 @@ def sort_file(table: Table) -> None:
         # and then updatte the table
         # FIXME: sort `features`
 
-        table[chrom] = sorted(features, key=lambda x: x[1],reverse=False)  # features should be sorted here
-        #table[chrom] = features.sort(key=lambda x: x[1])#, reverse=Faslse)
+        #table[chrom] = sorted(features, key=lambda x: x[1],reverse=False)  # features should be sorted here
+        ## sort by chrom_start
+        features.sort(key=get_chrom_)
+        ## assign to table
+        table[chrom] = features
 
 
 def print_file(table: Table, outfile: TextIO) -> None:
