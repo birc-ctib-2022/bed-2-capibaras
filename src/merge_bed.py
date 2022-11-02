@@ -22,7 +22,7 @@ def read_bed_file(f: TextIO) -> list[BedLine]:
         prev_feature = res[-1]
         assert prev_feature.chrom < feature.chrom or \
             (prev_feature.chrom == feature.chrom and
-             prev_feature.chrom_start <= feature.chrom_start), \
+            prev_feature.chrom_start <= feature.chrom_start), \
             "Input files must be sorted"
         res.append(feature)
 
@@ -31,23 +31,21 @@ def read_bed_file(f: TextIO) -> list[BedLine]:
 
 def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
     """Merge features and write them to outfile."""
-    # FIXME: I have work to do here!
-    number_lines_f1 = len(f1)
-    number_lines_f2 = len(f2)
-    i,j = 0,0
-    sorted_list =[]
-    
-    while f1 and f2:
-        chrom_1 = f1[i][0]
-        start_1 = f1[i][1]
-        chrom_2 = f2[i][0]
-        start_2 = f2[i][1]
-    
-
-        if list1[0] <  list2[0]:
-            sorted_list.append(list1.pop(0))
+    i,j=0,0
+    result = []
+    while i< len(f1) and j< len(f2):
+        if f1[i][0] <= f2[j][0] and f1[i][1] <= f2[j][1]:
+            result.append(f1[i])
+            i += 1
         else:
-            sorted_list.append(list2.pop(0))
+            result.append(f2[j])
+            j += 1
+    result.extend(f1[i:])
+    result.extend(f2[j:])
+    for i in result:
+        print_line(i,outfile) #loook at this later
+
+
 
 
 def main() -> None:
@@ -57,9 +55,9 @@ def main() -> None:
     argparser.add_argument('f1', type=argparse.FileType('r'))
     argparser.add_argument('f2', type=argparse.FileType('r'))
     argparser.add_argument('-o', '--outfile',  # use an option to specify this
-                           metavar='output',   # name used in help text
-                           type=argparse.FileType('w'),  # file for writing
-                           default=sys.stdout)
+                            metavar='output',   # name used in help text
+                            type=argparse.FileType('w'),  # file for writing
+                            default=sys.stdout)
 
     # Parse options and put them in the table args
     args = argparser.parse_args()
