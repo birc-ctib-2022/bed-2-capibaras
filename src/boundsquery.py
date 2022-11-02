@@ -46,7 +46,7 @@ def upper_bound(x: list[int],i:int, j: int) -> int:
         if i <= x[middle] <= j :
             bound_index = middle
             start = middle + 1 # is there any v occurrance after?
-        elif x[middle] < j:
+        elif x[middle] > j:
             end = middle - 1    
         else:
             start = middle + 1
