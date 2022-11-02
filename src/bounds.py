@@ -25,8 +25,8 @@ def lower_bound(x: list[int], v: int) -> int:
         else:
             start = middle + 1
             
-    #if lower_bound_index is None:
-    #    return len(x)
+    if lower_bound_index is None:
+        return len(x)
     return lower_bound_index
 
 
@@ -51,7 +51,7 @@ def upper_bound(x: list[int], v: int) -> int:
         else:
             start = middle + 1
             
-    #if bound_index is None:
-    #    return len(x)
+    if bound_index is None:
+        return len(x)
     return bound_index
 
