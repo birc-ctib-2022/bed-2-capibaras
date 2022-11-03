@@ -57,10 +57,16 @@ Once you have implemented a lower bound search for the start of the range, imple
 ## Report
 
 *Answer the questions below and then push this file to GitHub.*
-
 *How do you use binary search to find the lower bound of a number? How did you have to modify the binary search algorithm?*
+
+Searching for the lowest number above a certain inteval was done by searching for the value v that is the smallest within the inteval i:j, to do that we found the middel and checked wheter it was contained within i:j, if it was found within we moved the end to one left of the mid, cheking if there was a smaller value contained within i:j. 
+The same principle was used for the upper bound, but when if a value was contained within the inteval, we moved the start one to the right of the middel. So the modification needed was to include that the value was contained within our search inteval.
 
 *Would anything be more difficult if the features covered ranges instead of single nucleotides (like real BED files)? What could go wrong, if anything?*
 
+Yes, as we would miss the once that are not included in our inteval completely, so if we are checking everything within 5:11 we would fx. miss features that started before 5. For a possible implementation to fix it, we cant think of a way that would not include checking the entire dataset twice.
+
 *We wrote a tool for merging two BED files, but what if we had a bunch of them? What would the complexity be if we merged them in, one at a time? What would the complexity be if we merged all of the files at the same time?*
 
+if we merge them one at a time, merging can be done in O(n+m) if the list is already sorted, adding one at a time would require us to run as many times we have lists k. Therefore we would end up running O((n+m)*k) times.
+if we would merge them all at once, we woukld only have to run through all the files once and end up with a complexity of o(n+m)
