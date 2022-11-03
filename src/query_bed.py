@@ -7,11 +7,31 @@ from bed import (
     read_bed_file, print_line, BedLine
 )
 
+from boundsquery import (
+    lower_bound, upper_bound
+)
+
 
 def extract_region(features: list[BedLine],
-                   start: int, end: int) -> list[BedLine]:
+                   start: int, end: int, outfile) -> list[BedLine]:
     """Extract region chrom[start:end] and write it to outfile."""
-    return []  # FIXME: We want the actual region, not an empty list!
+
+    starts = [x[1] for x in features]
+    lower_bound_index = lower_bound(starts,start,end)
+    
+   
+    ends = [x[2] for x in features]
+    upper_bound_index = upper_bound(ends,start, end)
+
+    if upper_bound_index is None and lower_bound_index is None:
+        return []
+    elif upper_bound_index is None:
+        return features[lower_bound_index:] 
+    elif lower_bound_index is None:
+        return features[:upper_bound_index]
+    else:
+        return features[lower_bound_index:upper_bound_index+1] 
+ 
 
 
 def main() -> None:
@@ -39,7 +59,7 @@ def main() -> None:
         # function. If you did your job well, this should give us the features
         # that we want.
         region = extract_region(
-            features.get_chrom(chrom), int(start), int(end))
+            features.get_chrom(chrom), int(start), int(end),args.outfile)
         for line in region:
             print_line(line, args.outfile)
 

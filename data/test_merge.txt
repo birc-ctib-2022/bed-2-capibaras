@@ -1,0 +1,4 @@
+chr1	0	1	bar
+chr1	199	200	qax
+chr1	200	201	qux
+chr1	600	601	baz

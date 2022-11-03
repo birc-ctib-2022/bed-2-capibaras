@@ -9,14 +9,27 @@ from bed import (
 )
 
 
+def get_chrom_(x):
+    return x[1]
+
+
 def sort_file(table: Table) -> None:
     """Sort each chromosome and update the table."""
+    countkeys = [len(features) for chrom,features in table.items()]
+
+
+    
     for chrom, features in table.items():
         # Here we iterate through all the chromosomes in the file.
         # You need to sort `features` with respect to chrom_start
         # and then updatte the table
         # FIXME: sort `features`
-        table[chrom] = features  # features should be sorted here
+
+        #table[chrom] = sorted(features, key=lambda x: x[1],reverse=False)  # features should be sorted here
+        ## sort by chrom_start
+        features.sort(key=get_chrom_)
+        ## assign to table
+        table[chrom] = features
 
 
 def print_file(table: Table, outfile: TextIO) -> None:
@@ -45,6 +58,7 @@ def main() -> None:
     args = argparser.parse_args()
 
     # With all the options handled, we just need to do the real work
+    #print(args.infile)
     table = read_bed_file(args.infile)
     sort_file(table)
     print_file(table, args.outfile)

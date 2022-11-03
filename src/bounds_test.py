@@ -17,3 +17,5 @@ def test_bounds() -> None:
         query = x[lower_bound(x, i):upper_bound(x, i)]
         for q in query:
             assert i == q
+        
+
